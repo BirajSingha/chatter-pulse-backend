@@ -1,0 +1,58 @@
+POST http://localhost:3000/auth/signIn
+Content-Type: application/json
+
+{
+    "email": "ankana@yopmail.com",
+    "password": "Ankana@98"
+}
+
+####
+
+POST http://localhost:3000/auth/signUp
+Content-Type: application/json
+
+{
+    "username": "Ankana Hazra",
+    "email": "ankana@yopmail.com",
+    "password": "Ankana@98",
+    "phone": "9101004422",
+    "address": "Salt Lake, Sector V"
+}
+
+####
+
+GET http://localhost:3000/auth/profile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjhmZDlmMTUyYzIwZDUzZTc1NjkyMzYiLCJlbWFpbCI6ImJpcmFqQHlvcG1haWwuY29tIiwiaWF0IjoxNzIwNzA4NTYxLCJleHAiOjE3MjA3MTAzNjF9.qmAy-775Nw8Hh-9UtFDQZ6x6OOLf00_7YSrPBMAHP24
+
+###
+
+PUT http://localhost:3000/auth/update-profile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjhmZDlmMTUyYzIwZDUzZTc1NjkyMzYiLCJlbWFpbCI6ImJpcmFqQHlvcG1haWwuY29tIiwiaWF0IjoxNzIwNzA4NTYxLCJleHAiOjE3MjA3MTAzNjF9.qmAy-775Nw8Hh-9UtFDQZ6x6OOLf00_7YSrPBMAHP24
+
+
+{
+    "username": "Ankana Hazra",
+}
+
+
+###
+
+
+GET http://localhost:3000/auth/reqVerifyAccount
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjhmZjQ4MDRkYjZmOGY1NWQwM2Y5NmMiLCJlbWFpbCI6ImFua2FuYUB5b3BtYWlsLmNvbSIsImlhdCI6MTcyMDc4NDc0NywiZXhwIjoxNzIwNzg2NTQ3fQ.EM8x6PDUvxwZgpan2cdKOu-rXogNLlK3Wx2t9uBkH2Q
+
+###
+
+POST http://localhost:3000/auth/verifyAccount
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjhmZjQ4MDRkYjZmOGY1NWQwM2Y5NmMiLCJlbWFpbCI6ImFua2FuYUB5b3BtYWlsLmNvbSIsImlhdCI6MTcyMDc4NDc0NywiZXhwIjoxNzIwNzg2NTQ3fQ.EM8x6PDUvxwZgpan2cdKOu-rXogNLlK3Wx2t9uBkH2Q
+
+{
+    "email": "ankana@yopmail.com",
+    "verificationCode": "3524"
+}
+
+###
