@@ -33,19 +33,23 @@ let AuthController = class AuthController {
     reqVerifyAccount(request) {
         return this.authService.reqVerifyAccount(request.user._id);
     }
-    verifyAccount(VerifyAccountDto) {
-        return this.authService.verifyAccount(VerifyAccountDto);
+    verifyAccount(request, VerifyAccountDto) {
+        return this.authService.verifyAccount(request.user._id, VerifyAccountDto);
     }
     updateProfile(request, UpdateProfileDto) {
         return this.authService.updateProfile(request.user._id, UpdateProfileDto);
+    }
+    changePassword(request, changePasswordDto) {
+        return this.authService.changePassword(request.user._id, changePasswordDto);
+    }
+    forgotPassword(forgotPasswordDto) {
+        return this.authService.forgotPassword(forgotPasswordDto);
     }
 };
 exports.AuthController = AuthController;
 __decorate([
     (0, common_1.HttpCode)(200),
     (0, common_1.Post)('signIn'),
-    (0, common_1.Header)('Access-Control-Allow-Origin', 'http://localhost:3001'),
-    (0, common_1.Header)('Access-Control-Allow-Credentials', 'true'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [auth_dto_1.SigninDto]),
@@ -60,6 +64,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "signUp", null);
 __decorate([
+    (0, common_1.HttpCode)(200),
     (0, common_1.UseGuards)(auth_gaurd_1.AuthGaurd),
     (0, common_1.Get)('profile'),
     __param(0, (0, common_1.Request)()),
@@ -68,6 +73,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "getProfile", null);
 __decorate([
+    (0, common_1.HttpCode)(200),
     (0, common_1.UseGuards)(auth_gaurd_1.AuthGaurd),
     (0, common_1.Get)('reqVerifyAccount'),
     __param(0, (0, common_1.Request)()),
@@ -76,14 +82,17 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "reqVerifyAccount", null);
 __decorate([
+    (0, common_1.HttpCode)(200),
     (0, common_1.UseGuards)(auth_gaurd_1.AuthGaurd),
     (0, common_1.Post)('verifyAccount'),
-    __param(0, (0, common_1.Body)()),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [auth_dto_1.VerifyAccountDto]),
+    __metadata("design:paramtypes", [Object, auth_dto_1.VerifyAccountDto]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "verifyAccount", null);
 __decorate([
+    (0, common_1.HttpCode)(200),
     (0, common_1.UseGuards)(auth_gaurd_1.AuthGaurd),
     (0, common_1.Put)('updateProfile'),
     __param(0, (0, common_1.Request)()),
@@ -92,6 +101,24 @@ __decorate([
     __metadata("design:paramtypes", [Object, auth_dto_1.UpdateProfileDto]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "updateProfile", null);
+__decorate([
+    (0, common_1.HttpCode)(200),
+    (0, common_1.UseGuards)(auth_gaurd_1.AuthGaurd),
+    (0, common_1.Put)('change-password'),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, auth_dto_1.ChangePasswordDto]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "changePassword", null);
+__decorate([
+    (0, common_1.HttpCode)(200),
+    (0, common_1.Post)('forgot-password'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [auth_dto_1.ForgotPasswordDto]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "forgotPassword", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

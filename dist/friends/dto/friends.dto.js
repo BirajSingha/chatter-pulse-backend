@@ -1,0 +1,64 @@
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SearchFriendDto = exports.BlockUserDto = exports.UserFollowDto = exports.DeleteFriendDto = exports.AddFriendDto = void 0;
+const class_validator_1 = require("class-validator");
+class AddFriendDto {
+}
+exports.AddFriendDto = AddFriendDto;
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], AddFriendDto.prototype, "friendId", void 0);
+class DeleteFriendDto {
+}
+exports.DeleteFriendDto = DeleteFriendDto;
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], DeleteFriendDto.prototype, "friendId", void 0);
+class UserFollowDto {
+}
+exports.UserFollowDto = UserFollowDto;
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], UserFollowDto.prototype, "friendId", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", Boolean)
+], UserFollowDto.prototype, "isFollowing", void 0);
+class BlockUserDto {
+}
+exports.BlockUserDto = BlockUserDto;
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], BlockUserDto.prototype, "friendId", void 0);
+__decorate([
+    (0, class_validator_1.IsBoolean)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", Boolean)
+], BlockUserDto.prototype, "isBlocked", void 0);
+class SearchFriendDto {
+}
+exports.SearchFriendDto = SearchFriendDto;
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], SearchFriendDto.prototype, "query", void 0);
+//# sourceMappingURL=friends.dto.js.map

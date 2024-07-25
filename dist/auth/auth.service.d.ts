@@ -1,4 +1,4 @@
-import { SignupDto, UpdateProfileDto } from './dto/auth.dto';
+import { SignupDto, UpdateProfileDto, VerifyAccountDto, ChangePasswordDto, ForgotPasswordDto } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { MailService } from 'src/mail/mail.service';
 import { UsersService } from 'src/users/users.service';
@@ -8,7 +8,7 @@ type AuthInput = {
 };
 type SignInData = {
     _id: string;
-    username: string;
+    fullname: string;
     email: string;
     phone: string;
     address: string;
@@ -21,7 +21,7 @@ type AuthResult = {
     accessToken: string;
     data: {
         _id: string;
-        username: string;
+        fullname: string;
         email: string;
         phone: string;
         address: string;
@@ -41,6 +41,16 @@ export declare class AuthService {
         accessToken: string;
         message: string;
         statusCode: number;
+        data: {
+            _id: string;
+            fullname: string;
+            email: string;
+            phone: string;
+            address: string;
+            isVerified: boolean;
+            createdAt: Date;
+            updatedAt: Date;
+        };
     }>;
     getProfile(userId: number): Promise<{
         _id: string;
@@ -65,10 +75,16 @@ export declare class AuthService {
         message: string;
         statusCode: number;
     }>;
-    verifyAccount(input: {
-        email: string;
-        verificationCode: string;
-    }): Promise<{
+    verifyAccount(userId: number, VerifyAccountDto: VerifyAccountDto): Promise<{
+        message: string;
+        statusCode: number;
+    }>;
+    changePassword(userId: number, changePasswordDto: ChangePasswordDto): Promise<{
+        message: string;
+        statusCode: number;
+    }>;
+    generateRandomPassword(length: number): Promise<string>;
+    forgotPassword(forgotPasswordDto: ForgotPasswordDto): Promise<{
         message: string;
         statusCode: number;
     }>;

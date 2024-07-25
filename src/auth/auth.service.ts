@@ -1,4 +1,10 @@
-import { SignupDto, UpdateProfileDto } from './dto/auth.dto';
+import {
+  SignupDto,
+  UpdateProfileDto,
+  VerifyAccountDto,
+  ChangePasswordDto,
+  ForgotPasswordDto,
+} from './dto/auth.dto';
 import {
   BadRequestException,
   Injectable,
@@ -8,24 +14,27 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { MailService } from 'src/mail/mail.service';
 import { UsersService } from 'src/users/users.service';
+import * as bcrypt from 'bcrypt';
 
 type AuthInput = { email: string; password: string };
+
 type SignInData = {
   _id: string;
-  username: string;
+  fullname: string;
   email: string;
   phone: string;
   address: string;
   isVerified: boolean;
   createdAt: Date;
 };
+
 type AuthResult = {
   message: string;
   statusCode: number;
   accessToken: string;
   data: {
     _id: string;
-    username: string;
+    fullname: string;
     email: string;
     phone: string;
     address: string;
@@ -54,10 +63,13 @@ export class AuthService {
 
   async validateUser(input: AuthInput): Promise<SignInData | null> {
     const user = await this.usersService.findUserByEmail(input.email);
-    if (user && user.password === input.password) {
+
+    const isMatch = await bcrypt.compare(input.password, user.password);
+
+    if (user && isMatch) {
       return {
         _id: user._id.toString(),
-        username: user.username,
+        fullname: user.fullname,
         email: user.email,
         phone: user.phone,
         address: user.address,
@@ -96,7 +108,7 @@ export class AuthService {
         accessToken: accessToken,
         data: {
           _id: user._id,
-          username: user.username,
+          fullname: user.fullname,
           email: user.email,
           phone: user.phone,
           address: user.address,
@@ -112,7 +124,7 @@ export class AuthService {
       accessToken: accessToken,
       data: {
         _id: user._id,
-        username: user.username,
+        fullname: user.fullname,
         email: user.email,
         phone: user.phone,
         address: user.address,
@@ -140,10 +152,14 @@ export class AuthService {
       );
     }
 
+    const hashedPassword = await bcrypt.hash(SignupDto.password, 10);
+
+    SignupDto.password = hashedPassword;
+
     const newUser = await this.usersService.createUser(SignupDto);
 
     if (!newUser) {
-      throw new BadRequestException('Failed to create user');
+      throw new BadRequestException('Failed to create user!');
     }
 
     const verificationCode = Math.floor(1000 + Math.random() * 9000).toString();
@@ -169,6 +185,16 @@ export class AuthService {
       accessToken: accessToken,
       message: 'Account created successfully!',
       statusCode: 201,
+      data: {
+        _id: newUser._id,
+        fullname: newUser.fullname,
+        email: newUser.email,
+        phone: newUser.phone,
+        address: newUser.address,
+        isVerified: newUser.isVerified,
+        createdAt: newUser.createdAt,
+        updatedAt: newUser.updatedAt,
+      },
     };
   }
 
@@ -221,7 +247,7 @@ export class AuthService {
     const user = await this.usersService.findUserById(userId);
 
     if (!user) {
-      throw new UnauthorizedException('User not found');
+      throw new NotFoundException('User not found');
     }
 
     if (user && user.isVerified) {
@@ -240,15 +266,128 @@ export class AuthService {
     };
   }
 
-  async verifyAccount(input: { email: string; verificationCode: string }) {
-    const user = await this.usersService.verifyCode(
-      input.email,
-      input.verificationCode,
-    );
+  async verifyAccount(userId: number, VerifyAccountDto: VerifyAccountDto) {
+    const user = await this.usersService.findUserById(userId);
+
     if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    const verifyCode = await this.usersService.verifyCode(
+      user.email,
+      VerifyAccountDto.verificationCode,
+    );
+    if (!verifyCode) {
       throw new BadRequestException('Invalid verification code');
     }
 
     return { message: 'Account verified successfully!', statusCode: 200 };
+  }
+
+  async changePassword(userId: number, changePasswordDto: ChangePasswordDto) {
+    const user = await this.usersService.findUserById(userId);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const isMatch = await bcrypt.compare(
+      changePasswordDto.oldPassword,
+      user.password,
+    );
+
+    if (!isMatch) {
+      throw new UnauthorizedException('Invalid old password');
+    }
+
+    const passwordPattern =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordPattern.test(changePasswordDto.newPassword)) {
+      throw new BadRequestException(
+        'New password does not meet complexity requirements!',
+      );
+    }
+
+    const isPasswordSame = await bcrypt.compare(
+      changePasswordDto.oldPassword,
+      changePasswordDto.newPassword,
+    );
+
+    if (isPasswordSame) {
+      throw new BadRequestException(
+        'New password cannot be same as old password',
+      );
+    }
+
+    const hashedPassword = await bcrypt.hash(changePasswordDto.newPassword, 10);
+
+    user.password = hashedPassword;
+
+    await this.usersService.saveUser(user);
+
+    return {
+      message:
+        'Password changed successfully! Please log in with your new password.',
+      statusCode: 200,
+    };
+  }
+
+  async generateRandomPassword(length: number) {
+    const uppercaseLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const lowercaseLetters = 'abcdefghijklmnopqrstuvwxyz';
+    const numbers = '0123456789';
+    const specialCharacters = '!@#$%&*_+?';
+
+    const allCharacters =
+      uppercaseLetters + lowercaseLetters + numbers + specialCharacters;
+
+    let password = '';
+
+    // Ensure at least one character from each required set
+    password +=
+      uppercaseLetters[Math.floor(Math.random() * uppercaseLetters.length)];
+    password +=
+      lowercaseLetters[Math.floor(Math.random() * lowercaseLetters.length)];
+    password += numbers[Math.floor(Math.random() * numbers.length)];
+    password +=
+      specialCharacters[Math.floor(Math.random() * specialCharacters.length)];
+
+    // Fill the rest of the password length with random characters
+    for (let i = 4; i < length; i++) {
+      password +=
+        allCharacters[Math.floor(Math.random() * allCharacters.length)];
+    }
+
+    // Shuffle the password to ensure randomness
+    password = password
+      .split('')
+      .sort(() => 0.5 - Math.random())
+      .join('');
+
+    return password;
+  }
+
+  async forgotPassword(forgotPasswordDto: ForgotPasswordDto) {
+    const user = await this.usersService.findUserByEmail(
+      forgotPasswordDto.email,
+    );
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const newPassword = await this.generateRandomPassword(12);
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await this.mailService.sendNewPassword(user.email, newPassword);
+
+    user.password = hashedPassword;
+
+    await this.usersService.saveUser(user);
+
+    return {
+      message: 'A new password has been sent! Please check your email.',
+      statusCode: 200,
+    };
   }
 }

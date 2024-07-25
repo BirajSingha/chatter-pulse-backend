@@ -1,37 +1,39 @@
-import { IsString, IsNotEmpty } from 'class-validator';
-
-export class MyFriendsDto {
-  @IsString()
-  @IsNotEmpty()
-  readonly friendId: string;
-
-  @IsString()
-  @IsNotEmpty()
-  readonly userId: string;
-}
+import { IsString, IsNotEmpty, IsBoolean } from 'class-validator';
 
 export class AddFriendDto {
   @IsString()
   @IsNotEmpty()
   readonly friendId: string;
-
-  @IsString()
-  @IsNotEmpty()
-  readonly userId: string;
 }
 
 export class DeleteFriendDto {
   @IsString()
   @IsNotEmpty()
   readonly friendId: string;
-
-  @IsString()
-  @IsNotEmpty()
-  readonly userId: string;
 }
 
-export class SuggestedFriendsDto {
+export class UserFollowDto {
   @IsString()
   @IsNotEmpty()
-  readonly userId: string;
+  readonly friendId: string;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  readonly isFollowing: boolean;
+}
+
+export class BlockUserDto {
+  @IsString()
+  @IsNotEmpty()
+  readonly friendId: string;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  readonly isBlocked: boolean;
+}
+
+export class SearchFriendDto {
+  @IsString()
+  @IsNotEmpty()
+  readonly query: string;
 }

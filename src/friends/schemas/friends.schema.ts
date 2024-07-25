@@ -10,6 +10,24 @@ export class Friend {
 
   @Prop({ required: true })
   friendId: string;
+
+  @Prop({ required: true })
+  status: string;
+
+  @Prop({ required: true, default: false })
+  isFollowing: boolean;
+
+  @Prop({ required: true, default: false })
+  isBlocked: boolean;
+
+  @Prop({ required: true, default: false })
+  isMuted: boolean;
+
+  @Prop({ default: Date.now })
+  createdAt: Date;
+
+  @Prop({ default: Date.now })
+  updatedAt: Date;
 }
 
 export const FriendSchema = SchemaFactory.createForClass(Friend);

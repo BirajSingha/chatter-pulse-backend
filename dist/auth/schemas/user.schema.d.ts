@@ -3,6 +3,7 @@ export type UserDocument = User & Document;
 export declare class User {
     _id: string;
     username: string;
+    fullname: string;
     email: string;
     password: string;
     phone: string;

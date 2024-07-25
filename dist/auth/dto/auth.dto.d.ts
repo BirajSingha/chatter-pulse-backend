@@ -1,6 +1,6 @@
 export declare class SignupDto {
-    readonly username: string;
-    readonly password: string;
+    readonly fullname: string;
+    password: string;
     readonly email: string;
     readonly phone: string;
     readonly address: string;
@@ -15,7 +15,6 @@ export declare class UpdateProfileDto {
     readonly address?: string;
 }
 export declare class VerifyAccountDto {
-    readonly email: string;
     readonly verificationCode: string;
 }
 export declare class ChangePasswordDto {
@@ -27,6 +26,5 @@ export declare class ForgotPasswordDto {
 }
 export declare class ResetPasswordDto {
     readonly password: string;
-    readonly token: string;
     readonly confirmPassword: string;
 }

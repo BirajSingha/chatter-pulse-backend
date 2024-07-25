@@ -5,12 +5,13 @@ import {
   IsNotEmpty,
   MinLength,
   Matches,
+  IsBoolean,
 } from 'class-validator';
 
 export class SignupDto {
   @IsString()
   @IsNotEmpty()
-  readonly username: string;
+  readonly fullname: string;
 
   @IsString()
   @IsNotEmpty()
@@ -21,7 +22,7 @@ export class SignupDto {
       message: 'Password too weak',
     },
   )
-  readonly password: string;
+  password: string;
 
   @IsEmail()
   @IsNotEmpty()
@@ -61,10 +62,6 @@ export class UpdateProfileDto {
 }
 
 export class VerifyAccountDto {
-  @IsEmail()
-  @IsNotEmpty()
-  readonly email: string;
-
   @IsString()
   @IsNotEmpty()
   readonly verificationCode: string;
@@ -97,10 +94,6 @@ export class ResetPasswordDto {
   @IsString()
   @IsNotEmpty()
   readonly password: string;
-
-  @IsString()
-  @IsNotEmpty()
-  readonly token: string;
 
   @IsString()
   @IsNotEmpty()

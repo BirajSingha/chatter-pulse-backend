@@ -4,7 +4,6 @@ import {
   Get,
   Header,
   HttpCode,
-  HttpStatus,
   Post,
   Put,
   Request,
@@ -13,6 +12,8 @@ import {
 import { AuthService } from './auth.service';
 import { AuthGaurd } from './gaurds/auth.gaurd';
 import {
+  ChangePasswordDto,
+  ForgotPasswordDto,
   SigninDto,
   SignupDto,
   UpdateProfileDto,
@@ -25,8 +26,6 @@ export class AuthController {
 
   @HttpCode(200)
   @Post('signIn')
-  @Header('Access-Control-Allow-Origin', 'http://localhost:3001')
-  @Header('Access-Control-Allow-Credentials', 'true')
   signIn(@Body() SigninDto: SigninDto) {
     return this.authService.authenticate(SigninDto);
   }
@@ -37,24 +36,31 @@ export class AuthController {
     return this.authService.signUp(SignupDto);
   }
 
+  @HttpCode(200)
   @UseGuards(AuthGaurd)
   @Get('profile')
   getProfile(@Request() request) {
     return this.authService.getProfile(request.user._id);
   }
 
+  @HttpCode(200)
   @UseGuards(AuthGaurd)
   @Get('reqVerifyAccount')
   reqVerifyAccount(@Request() request) {
     return this.authService.reqVerifyAccount(request.user._id);
   }
 
+  @HttpCode(200)
   @UseGuards(AuthGaurd)
   @Post('verifyAccount')
-  verifyAccount(@Body() VerifyAccountDto: VerifyAccountDto) {
-    return this.authService.verifyAccount(VerifyAccountDto);
+  verifyAccount(
+    @Request() request,
+    @Body() VerifyAccountDto: VerifyAccountDto,
+  ) {
+    return this.authService.verifyAccount(request.user._id, VerifyAccountDto);
   }
 
+  @HttpCode(200)
   @UseGuards(AuthGaurd)
   @Put('updateProfile')
   updateProfile(
@@ -62,5 +68,21 @@ export class AuthController {
     @Body() UpdateProfileDto: UpdateProfileDto,
   ) {
     return this.authService.updateProfile(request.user._id, UpdateProfileDto);
+  }
+
+  @HttpCode(200)
+  @UseGuards(AuthGaurd)
+  @Put('change-password')
+  changePassword(
+    @Request() request,
+    @Body() changePasswordDto: ChangePasswordDto,
+  ) {
+    return this.authService.changePassword(request.user._id, changePasswordDto);
+  }
+
+  @HttpCode(200)
+  @Post('forgot-password')
+  forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
+    return this.authService.forgotPassword(forgotPasswordDto);
   }
 }

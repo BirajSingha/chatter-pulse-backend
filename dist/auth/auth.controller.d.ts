@@ -1,5 +1,5 @@
 import { AuthService } from './auth.service';
-import { SigninDto, SignupDto, UpdateProfileDto, VerifyAccountDto } from './dto/auth.dto';
+import { ChangePasswordDto, ForgotPasswordDto, SigninDto, SignupDto, UpdateProfileDto, VerifyAccountDto } from './dto/auth.dto';
 export declare class AuthController {
     private authService;
     constructor(authService: AuthService);
@@ -9,7 +9,7 @@ export declare class AuthController {
         accessToken: string;
         data: {
             _id: string;
-            username: string;
+            fullname: string;
             email: string;
             phone: string;
             address: string;
@@ -21,6 +21,16 @@ export declare class AuthController {
         accessToken: string;
         message: string;
         statusCode: number;
+        data: {
+            _id: string;
+            fullname: string;
+            email: string;
+            phone: string;
+            address: string;
+            isVerified: boolean;
+            createdAt: Date;
+            updatedAt: Date;
+        };
     }>;
     getProfile(request: any): Promise<{
         _id: string;
@@ -35,7 +45,7 @@ export declare class AuthController {
         message: string;
         statusCode: number;
     }>;
-    verifyAccount(VerifyAccountDto: VerifyAccountDto): Promise<{
+    verifyAccount(request: any, VerifyAccountDto: VerifyAccountDto): Promise<{
         message: string;
         statusCode: number;
     }>;
@@ -48,5 +58,13 @@ export declare class AuthController {
         isVerified: boolean;
         createdAt: Date;
         updatedAt: Date;
+    }>;
+    changePassword(request: any, changePasswordDto: ChangePasswordDto): Promise<{
+        message: string;
+        statusCode: number;
+    }>;
+    forgotPassword(forgotPasswordDto: ForgotPasswordDto): Promise<{
+        message: string;
+        statusCode: number;
     }>;
 }

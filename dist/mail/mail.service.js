@@ -26,9 +26,18 @@ let MailService = class MailService {
         await this.transporter.sendMail({
             from: '"No Reply" <wtsangularteam@gmail.com>',
             to: email,
-            subject: 'Welcome to the App! Verify your Email',
+            subject: 'Welcome to the Chatter-Pulse! Verify your Email',
             text: `Welcome! Please confirm your email using the verification code.`,
             html: `<b>Welcome!</b><br>Please confirm your email by using the verification code. Your verification code is: ${code} `,
+        });
+    }
+    async sendNewPassword(email, password) {
+        await this.transporter.sendMail({
+            from: '"No Reply" <wtsangularteam@gmail.com>',
+            to: email,
+            subject: 'Welcome to the Chatter-Pulse! Forgot Password',
+            text: `Congratulations! Your password has been changed successfully.`,
+            html: `<b>Congratulations!</b><br>Your password has been changed successfully. Your new password is: ${password} `,
         });
     }
 };

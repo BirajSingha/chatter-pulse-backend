@@ -9,64 +9,45 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserSchema = exports.User = void 0;
+exports.FriendSchema = exports.Friend = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
-let User = class User {
+let Friend = class Friend {
 };
-exports.User = User;
-__decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], User.prototype, "username", void 0);
+exports.Friend = Friend;
 __decorate([
     (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
-], User.prototype, "fullname", void 0);
+], Friend.prototype, "userId", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ required: true, unique: true }),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
-], User.prototype, "email", void 0);
+], Friend.prototype, "friendId", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({
-        required: true,
-    }),
+    (0, mongoose_1.Prop)({ required: true }),
     __metadata("design:type", String)
-], User.prototype, "password", void 0);
+], Friend.prototype, "status", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({
-        required: true,
-    }),
-    __metadata("design:type", String)
-], User.prototype, "phone", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], User.prototype, "address", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({
-        default: false,
-    }),
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ required: true, default: false }),
     __metadata("design:type", Boolean)
-], User.prototype, "isVerified", void 0);
+], Friend.prototype, "isFollowing", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], User.prototype, "verificationCode", void 0);
+    (0, mongoose_1.Prop)({ required: true, default: false }),
+    __metadata("design:type", Boolean)
+], Friend.prototype, "isBlocked", void 0);
 __decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", Date)
-], User.prototype, "verificationCodeTimeStamp", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({ default: Date.now }),
-    __metadata("design:type", Date)
-], User.prototype, "createdAt", void 0);
+    (0, mongoose_1.Prop)({ required: true, default: false }),
+    __metadata("design:type", Boolean)
+], Friend.prototype, "isMuted", void 0);
 __decorate([
     (0, mongoose_1.Prop)({ default: Date.now }),
     __metadata("design:type", Date)
-], User.prototype, "updatedAt", void 0);
-exports.User = User = __decorate([
+], Friend.prototype, "createdAt", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ default: Date.now }),
+    __metadata("design:type", Date)
+], Friend.prototype, "updatedAt", void 0);
+exports.Friend = Friend = __decorate([
     (0, mongoose_1.Schema)()
-], User);
-exports.UserSchema = mongoose_1.SchemaFactory.createForClass(User);
-//# sourceMappingURL=user.schema.js.map
+], Friend);
+exports.FriendSchema = mongoose_1.SchemaFactory.createForClass(Friend);
+//# sourceMappingURL=friends.schema.js.map
