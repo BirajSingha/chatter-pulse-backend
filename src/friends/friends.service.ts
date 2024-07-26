@@ -11,6 +11,7 @@ import {
   AddFriendDto,
   BlockUserDto,
   DeleteFriendDto,
+  MuteUserDto,
   SearchFriendDto,
   UserFollowDto,
 } from './dto/friends.dto';
@@ -229,30 +230,39 @@ export class FriendsService {
   }
 
   async updateFriendStatus(userId: string, userFollowDto: UserFollowDto) {
+    const { friendId, isFollowing } = userFollowDto;
+
+    const user = await this.userModel.findById(userId);
+    if (!user) {
+      throw new NotFoundException('User not found!');
+    }
+
     const existingFriend = await this.friendModel.findOne({
       userId,
-      friendId: userFollowDto.friendId,
+      friendId: friendId,
     });
 
     if (!existingFriend) {
       throw new NotFoundException('Friend not found!');
     }
 
-    existingFriend.isFollowing = userFollowDto.isFollowing;
+    existingFriend.isFollowing = isFollowing;
     existingFriend.updatedAt = new Date();
 
     await existingFriend.save();
 
     return {
-      message: 'Friend status updated successfully!',
+      message:
+        isFollowing === true
+          ? `You're now following ${user.fullname}`
+          : `You unfollowed ${user.fullname}`,
       statusCode: 200,
     };
   }
 
   async blockUser(userId: string, blockUserDto: BlockUserDto) {
-    const user = await this.friendModel.findById({
-      userId,
-    });
+    const { friendId, isBlocked } = blockUserDto;
+    const user = await this.userModel.findById(userId);
 
     if (!user) {
       throw new NotFoundException('User not found!');
@@ -260,29 +270,32 @@ export class FriendsService {
 
     const existingFriend = await this.friendModel.findOne({
       userId,
-      friendId: blockUserDto.friendId,
+      friendId: friendId,
     });
 
     if (!existingFriend) {
       throw new NotFoundException('Friend not found!');
     }
 
-    existingFriend.status = 'Blocked';
-    existingFriend.isBlocked = true;
-    existingFriend.isMuted = true;
-    existingFriend.isFollowing = false;
+    existingFriend.status = isBlocked === true ? 'Blocked' : 'Friends';
+    existingFriend.isBlocked = isBlocked;
+    existingFriend.isMuted = isBlocked;
+    existingFriend.isFollowing = isBlocked === true ? false : true;
     existingFriend.updatedAt = new Date();
 
     await existingFriend.save();
 
     return {
-      message: 'User blocked successfully!',
+      message:
+        isBlocked === true
+          ? `You've blocked ${user.fullname}`
+          : `You've unblocked ${user.fullname}`,
       statusCode: 200,
     };
   }
 
-  async blockList(userId: string, blockUserDto: BlockUserDto) {
-    const user = await this.friendModel.findById({ userId });
+  async blockList(userId: string) {
+    const user = await this.userModel.findById(userId);
 
     if (!user) {
       throw new NotFoundException('User not found!');
@@ -291,7 +304,7 @@ export class FriendsService {
     const blockedUsers = await this.friendModel.find({
       userId,
       status: 'Blocked',
-      isBlocked: blockUserDto.isBlocked,
+      isBlocked: true,
     });
 
     if (blockedUsers.length === 0) {
@@ -323,10 +336,9 @@ export class FriendsService {
     };
   }
 
-  async unBlockUser(userId: string, blockUserDto: BlockUserDto) {
-    const user = await this.friendModel.findById({
-      userId,
-    });
+  async muteUser(userId: string, muteUserDto: MuteUserDto) {
+    const { friendId, isMuted } = muteUserDto;
+    const user = await this.userModel.findById(userId);
 
     if (!user) {
       throw new NotFoundException('User not found!');
@@ -334,7 +346,7 @@ export class FriendsService {
 
     const existingFriend = await this.friendModel.findOne({
       userId,
-      friendId: blockUserDto.friendId,
+      friendId: friendId,
     });
 
     if (!existingFriend) {
@@ -343,78 +355,17 @@ export class FriendsService {
 
     existingFriend.status = 'Friends';
     existingFriend.isBlocked = false;
-    existingFriend.isMuted = false;
-    existingFriend.isFollowing = true;
+    existingFriend.isMuted = isMuted;
+    existingFriend.isFollowing = isMuted === true ? false : true;
     existingFriend.updatedAt = new Date();
 
     await existingFriend.save();
 
     return {
-      message: 'User unblocked successfully!',
-      statusCode: 200,
-    };
-  }
-
-  async muteUser(userId: string, blockUserDto: BlockUserDto) {
-    const user = await this.friendModel.findById({
-      userId,
-    });
-
-    if (!user) {
-      throw new NotFoundException('User not found!');
-    }
-
-    const existingFriend = await this.friendModel.findOne({
-      userId,
-      friendId: blockUserDto.friendId,
-    });
-
-    if (!existingFriend) {
-      throw new NotFoundException('Friend not found!');
-    }
-
-    existingFriend.status = 'Friends';
-    existingFriend.isBlocked = false;
-    existingFriend.isMuted = true;
-    existingFriend.isFollowing = false;
-    existingFriend.updatedAt = new Date();
-
-    await existingFriend.save();
-
-    return {
-      message: 'User muted successfully!',
-      statusCode: 200,
-    };
-  }
-
-  async unMuteUser(userId: string, blockUserDto: BlockUserDto) {
-    const user = await this.friendModel.findById({
-      userId,
-    });
-
-    if (!user) {
-      throw new NotFoundException('User not found!');
-    }
-
-    const existingFriend = await this.friendModel.findOne({
-      userId,
-      friendId: blockUserDto.friendId,
-    });
-
-    if (!existingFriend) {
-      throw new NotFoundException('Friend not found!');
-    }
-
-    existingFriend.status = 'Friends';
-    existingFriend.isBlocked = false;
-    existingFriend.isMuted = false;
-    existingFriend.isFollowing = true;
-    existingFriend.updatedAt = new Date();
-
-    await existingFriend.save();
-
-    return {
-      message: 'User unmuted successfully!',
+      message:
+        isMuted === true
+          ? `You've muted ${user.fullname}`
+          : `You've unmuted ${user.fullname}`,
       statusCode: 200,
     };
   }
@@ -427,7 +378,11 @@ export class FriendsService {
     });
 
     if (!friendRelationships.length) {
-      throw new NotFoundException('No friends found!');
+      return {
+        statusCode: 200,
+        message: 'No friends found!',
+        data: [],
+      };
     }
 
     const friendIds = friendRelationships.map((friend) => friend.friendId);

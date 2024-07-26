@@ -5,7 +5,6 @@ import {
   IsNotEmpty,
   MinLength,
   Matches,
-  IsBoolean,
 } from 'class-validator';
 
 export class SignupDto {
@@ -88,19 +87,4 @@ export class ForgotPasswordDto {
   @IsEmail()
   @IsNotEmpty()
   readonly email: string;
-}
-
-export class ResetPasswordDto {
-  @IsString()
-  @IsNotEmpty()
-  readonly password: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(8)
-  @Matches(
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-    { message: 'Password too weak' },
-  )
-  readonly confirmPassword: string;
 }

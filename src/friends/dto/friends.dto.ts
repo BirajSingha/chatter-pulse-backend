@@ -32,6 +32,16 @@ export class BlockUserDto {
   readonly isBlocked: boolean;
 }
 
+export class MuteUserDto {
+  @IsString()
+  @IsNotEmpty()
+  readonly friendId: string;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  readonly isMuted: boolean;
+}
+
 export class SearchFriendDto {
   @IsString()
   @IsNotEmpty()

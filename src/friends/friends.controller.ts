@@ -15,6 +15,7 @@ import {
   AddFriendDto,
   BlockUserDto,
   DeleteFriendDto,
+  MuteUserDto,
   SearchFriendDto,
   UserFollowDto,
 } from './dto/friends.dto';
@@ -91,30 +92,16 @@ export class FriendsController {
 
   @HttpCode(200)
   @UseGuards(AuthGaurd)
-  @Put('unblock')
-  async unBlockUser(@Request() request, @Body() blockUserDto: BlockUserDto) {
-    return this.friendsService.unBlockUser(request.user._id, blockUserDto);
-  }
-
-  @HttpCode(200)
-  @UseGuards(AuthGaurd)
   @Put('mute')
-  async muteUser(@Request() request, @Body() blockUserDto: BlockUserDto) {
-    return this.friendsService.muteUser(request.user._id, blockUserDto);
-  }
-
-  @HttpCode(200)
-  @UseGuards(AuthGaurd)
-  @Put('unmute')
-  async unMuteUser(@Request() request, @Body() blockUserDto: BlockUserDto) {
-    return this.friendsService.unMuteUser(request.user._id, blockUserDto);
+  async muteUser(@Request() request, @Body() muteUserDto: MuteUserDto) {
+    return this.friendsService.muteUser(request.user._id, muteUserDto);
   }
 
   @HttpCode(200)
   @UseGuards(AuthGaurd)
   @Put('block-list')
-  async blockList(@Request() request, @Body() blockUserDto: BlockUserDto) {
-    return this.friendsService.blockList(request.user._id, blockUserDto);
+  async blockList(@Request() request) {
+    return this.friendsService.blockList(request.user._id);
   }
 
   @HttpCode(200)

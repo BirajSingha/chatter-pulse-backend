@@ -296,7 +296,7 @@ export class AuthService {
     );
 
     if (!isMatch) {
-      throw new UnauthorizedException('Invalid old password');
+      throw new UnauthorizedException('Invalid old password!');
     }
 
     const passwordPattern =
@@ -343,7 +343,6 @@ export class AuthService {
 
     let password = '';
 
-    // Ensure at least one character from each required set
     password +=
       uppercaseLetters[Math.floor(Math.random() * uppercaseLetters.length)];
     password +=
@@ -352,13 +351,11 @@ export class AuthService {
     password +=
       specialCharacters[Math.floor(Math.random() * specialCharacters.length)];
 
-    // Fill the rest of the password length with random characters
     for (let i = 4; i < length; i++) {
       password +=
         allCharacters[Math.floor(Math.random() * allCharacters.length)];
     }
 
-    // Shuffle the password to ensure randomness
     password = password
       .split('')
       .sort(() => 0.5 - Math.random())
