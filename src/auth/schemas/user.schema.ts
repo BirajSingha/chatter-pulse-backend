@@ -7,7 +7,7 @@ export type UserDocument = User & Document;
 export class User {
   _id: string;
 
-  @Prop()
+  @Prop({ default: '' })
   username: string;
 
   @Prop({ required: true })
@@ -26,19 +26,25 @@ export class User {
   })
   phone: string;
 
-  @Prop()
+  @Prop({ default: '' })
   address: string;
 
-  @Prop({
-    default: false,
-  })
-  @Prop()
+  @Prop({ default: '' })
+  profile_image: string;
+
+  @Prop({ default: '' })
+  bio: string;
+
+  @Prop({ type: [String], default: [] })
+  interests: string[];
+
+  @Prop({ default: false })
   isVerified: boolean;
 
-  @Prop()
+  @Prop({ default: '' })
   verificationCode?: string;
 
-  @Prop()
+  @Prop({ default: '' })
   verificationCodeTimeStamp?: Date;
 
   @Prop({ default: Date.now })

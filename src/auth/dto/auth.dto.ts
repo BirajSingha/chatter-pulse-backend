@@ -5,6 +5,7 @@ import {
   IsNotEmpty,
   MinLength,
   Matches,
+  IsArray,
 } from 'class-validator';
 
 export class SignupDto {
@@ -58,6 +59,18 @@ export class UpdateProfileDto {
   @IsString()
   @IsOptional()
   readonly address?: string;
+
+  @IsString()
+  @IsOptional()
+  readonly profile_image?: string;
+
+  @IsString()
+  @IsOptional()
+  readonly bio?: string;
+
+  @IsArray()
+  @IsOptional()
+  readonly interests?: string[];
 }
 
 export class VerifyAccountDto {

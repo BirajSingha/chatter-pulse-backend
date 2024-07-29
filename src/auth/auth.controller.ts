@@ -2,12 +2,13 @@ import {
   Body,
   Controller,
   Get,
-  Header,
   HttpCode,
   Post,
   Put,
   Request,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGaurd } from './gaurds/auth.gaurd';
@@ -19,6 +20,9 @@ import {
   UpdateProfileDto,
   VerifyAccountDto,
 } from './dto/auth.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { extname } from 'path';
+import { diskStorage } from 'multer';
 
 @Controller('auth')
 export class AuthController {
@@ -26,14 +30,14 @@ export class AuthController {
 
   @HttpCode(200)
   @Post('signIn')
-  signIn(@Body() SigninDto: SigninDto) {
-    return this.authService.authenticate(SigninDto);
+  signIn(@Body() signinDto: SigninDto) {
+    return this.authService.authenticate(signinDto);
   }
 
   @HttpCode(201)
   @Post('signUp')
-  signUp(@Body() SignupDto: SignupDto) {
-    return this.authService.signUp(SignupDto);
+  signUp(@Body() signupDto: SignupDto) {
+    return this.authService.signUp(signupDto);
   }
 
   @HttpCode(200)
@@ -62,12 +66,43 @@ export class AuthController {
 
   @HttpCode(200)
   @UseGuards(AuthGaurd)
+  @UseInterceptors(
+    FileInterceptor('profile_image', {
+      storage: diskStorage({
+        destination: './uploads/profile_images',
+        filename: (req, file, cb) => {
+          const uniqueSuffix =
+            Date.now() + '-' + Math.round(Math.random() * 1e9);
+          cb(
+            null,
+            `${file.fieldname}-${uniqueSuffix}${extname(file.originalname)}`,
+          );
+        },
+      }),
+      limits: { fileSize: 5 * 1024 * 1024 },
+      fileFilter: (req, file, cb) => {
+        if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+          return cb(
+            new Error('Only image files with .jpg/.jpeg/.png are allowed!'),
+            false,
+          );
+        }
+        cb(null, true);
+      },
+    }),
+  )
   @Put('updateProfile')
   updateProfile(
     @Request() request,
     @Body() UpdateProfileDto: UpdateProfileDto,
+    @UploadedFile() file?: Express.Multer.File,
   ) {
-    return this.authService.updateProfile(request.user._id, UpdateProfileDto);
+    const profileImagePath = file ? file.path : null;
+    return this.authService.updateProfile(
+      request.user._id,
+      UpdateProfileDto,
+      profileImagePath,
+    );
   }
 
   @HttpCode(200)

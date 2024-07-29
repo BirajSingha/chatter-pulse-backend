@@ -211,12 +211,19 @@ export class AuthService {
       email: user.email,
       phone: user.phone,
       address: user.address,
+      profile_image: user.profile_image,
+      bio: user.bio,
+      interests: user.interests,
       isVerified: user.isVerified,
       createdAt: user.createdAt,
     };
   }
 
-  async updateProfile(userId: number, updateProfileDto: UpdateProfileDto) {
+  async updateProfile(
+    userId: number,
+    updateProfileDto: UpdateProfileDto,
+    profileImagePath: string | null,
+  ) {
     const user = await this.usersService.findUserById(userId);
     if (!user) {
       throw new UnauthorizedException('User not found');
@@ -230,13 +237,27 @@ export class AuthService {
     if (updateProfileDto.address) {
       user.address = updateProfileDto.address;
     }
+    if (profileImagePath) {
+      user.profile_image = profileImagePath;
+    }
+    if (updateProfileDto.bio) {
+      user.bio = updateProfileDto.bio;
+    }
+    if (updateProfileDto.interests) {
+      user.interests = updateProfileDto.interests;
+    }
+
     await this.usersService.saveUser(user);
+
     return {
       _id: user._id,
       username: user.username,
       email: user.email,
       phone: user.phone,
       address: user.address,
+      profile_image: user.profile_image,
+      bio: user.bio,
+      interests: user.interests,
       isVerified: user.isVerified,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
@@ -308,22 +329,11 @@ export class AuthService {
       );
     }
 
-    const isPasswordSame = await bcrypt.compare(
-      changePasswordDto.oldPassword,
-      changePasswordDto.newPassword,
-    );
-
-    if (isPasswordSame) {
-      throw new BadRequestException(
-        'New password cannot be same as old password',
-      );
-    }
-
     const hashedPassword = await bcrypt.hash(changePasswordDto.newPassword, 10);
 
     user.password = hashedPassword;
 
-    await this.usersService.saveUser(user);
+    await this.usersService.saveUser(user), { new: true };
 
     return {
       message:

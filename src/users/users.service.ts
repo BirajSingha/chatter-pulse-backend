@@ -56,29 +56,27 @@ export class UsersService {
       const diff = now.getTime() - timestamp.getTime();
 
       if (diff <= 60000 && user.verificationCode === verificationCode) {
-        await this.userModel
-          .updateOne({ email }, [
-            {
-              $set: {
-                isVerified: true,
-                verificationCode: '',
-                verificationCodeTimeStamp: null,
-              },
+        await this.userModel.updateOne({ email }, [
+          {
+            $set: {
+              isVerified: true,
+              verificationCode: '',
+              verificationCodeTimeStamp: '',
             },
-          ])
-          .exec();
+          },
+        ]);
+
         return user;
       } else if (diff > 60000) {
-        await this.userModel
-          .updateOne({ email }, [
-            {
-              $set: {
-                verificationCode: '',
-                verificationCodeTimeStamp: null,
-              },
+        await this.userModel.updateOne({ email }, [
+          {
+            $set: {
+              verificationCode: '',
+              verificationCodeTimeStamp: '',
             },
-          ])
-          .exec();
+          },
+        ]);
+
         throw new BadRequestException('Verification code has expired!');
       }
     }
