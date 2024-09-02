@@ -1,73 +1,106 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+<!-- # Social Media React Native App
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+![Social Media App Banner](https://example.com/banner.png) <!-- Replace with your app's banner image -->
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Overview
 
-## Description
+This is a fully-featured social media application built using React Native. The app allows users to connect with friends, share updates, follow other users, and engage with the community through likes, comments, and more.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Features
+
+- **User Authentication**: Sign up, log in, and manage user profiles securely.
+- **User Profiles**: Customize profiles with bio, profile picture, and personal information.
+- **Timeline**: View posts from people you follow, with the ability to like, comment, and share.
+- **Post Creation**: Create text and image posts with various editing options.
+- **Search Functionality**: Discover other users, hashtags, and content.
+- **Notifications**: Stay updated with real-time notifications for likes, comments, and follows.
+- **Direct Messaging**: Send private messages to other users.
+- **Group Chats**: Engage in group conversations with multiple users.
+- **Push Notifications**: Receive updates even when the app is closed.
+- **Dark Mode**: Switch between light and dark themes.
+
+## Technology Stack
+
+- **Frontend**: React Native, Redux
+- **Backend**: NestJS
+- **Database**: MongoDB
+- **Real-time**: Socket.IO for messaging
+- **Authentication**: JWT (JSON Web Tokens)
+- **Push Notifications**: Firebase Cloud Messaging (FCM)
+- **API Integration**: RESTful APIs
 
 ## Installation
 
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/yourusername/social-media-react-native-app.git
+   cd social-media-react-native-app
+
+   ```
+
+2. **Install dependencies:**
+
+`````bash
+npm install
+
+3. **Run the app:**
 ```bash
-$ yarn install
-```
+npm run android  # for Android
+npm run ios      # for iOS
 
-## Running the app
+```` -->
 
-```bash
-# development
-$ yarn run start
 
-# watch mode
-$ yarn run start:dev
+# Social Media Backend - NestJS
 
-# production mode
-$ yarn run start:prod
-```
+![Social Media Backend Banner](https://example.com/banner.png) <!-- Replace with your app's banner image -->
 
-## Test
+## Overview
 
-```bash
-# unit tests
-$ yarn run test
+This repository contains the backend API for a social media application, built using NestJS. The backend handles user authentication, post management, messaging, notifications, and more, providing a robust and scalable foundation for the social media platform.
 
-# e2e tests
-$ yarn run test:e2e
+## Features
 
-# test coverage
-$ yarn run test:cov
-```
+- **User Authentication**: Secure authentication using JWT (JSON Web Tokens) with roles and permissions.
+- **User Management**: APIs for user registration, profile management, and account settings.
+- **Post Management**: Create, read, update, and delete (CRUD) operations for posts, including text, images, and hashtags.
+- **Comments and Likes**: Support for commenting on posts and liking/unliking posts.
+- **Follow System**: API for following and unfollowing users, including followers/following lists.
+- **Real-time Messaging**: Private and group chat functionality using Socket.IO.
+- **Notifications**: Real-time notifications for events like new followers, likes, comments, and messages.
+- **Search**: Search functionality for users, posts, and hashtags.
+- **Role-based Access Control**: Different roles for users, admins, and moderators with specific permissions.
+- **RESTful API**: Well-structured and documented RESTful endpoints.
 
-## Support
+## Technology Stack
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- **Framework**: [NestJS](https://nestjs.com/) - A progressive Node.js framework for building efficient, reliable, and scalable server-side applications.
+- **Database**: MongoDB with Mongoose for data modeling.
+- **Authentication**: Passport.js with JWT strategy.
+- **Real-time**: Socket.IO for real-time messaging and notifications.
+- **Caching**: Redis for caching frequently accessed data.
+- **Validation**: Class-validator for input validation.
+- **Documentation**: Swagger for API documentation.
 
-## Stay in touch
+## Installation
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/yourusername/social-media-backend.git
+   cd social-media-backend
 
-## License
+2. **Install dependencies:**
+  ```bash
+  npm install
 
-Nest is [MIT licensed](LICENSE).
+3. **Create .env file and replace the value
+  DATABASE_URI=your_mongo_db_uri
+  JWT_SECRET=your_jwt_secret
+
+4. **Run the application:**
+  ```bash
+  npm run start:dev
+
+
+`````
