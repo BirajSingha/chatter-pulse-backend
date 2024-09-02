@@ -41,13 +41,15 @@ This is a fully-featured social media application built using React Native. The 
 
 2. **Install dependencies:**
 
-`````bash
+```bash
 npm install
 
+```
+
 3. **Run the app:**
+
 ```bash
 npm run android  # for Android
 npm run ios      # for iOS
 
-````
-`````
+```
