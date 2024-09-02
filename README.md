@@ -1,4 +1,4 @@
-<!-- # Social Media React Native App
+# Social Media React Native App
 
 ![Social Media App Banner](https://example.com/banner.png) <!-- Replace with your app's banner image -->
 
@@ -49,58 +49,5 @@ npm install
 npm run android  # for Android
 npm run ios      # for iOS
 
-```` -->
-
-
-# Social Media Backend - NestJS
-
-![Social Media Backend Banner](https://example.com/banner.png) <!-- Replace with your app's banner image -->
-
-## Overview
-
-This repository contains the backend API for a social media application, built using NestJS. The backend handles user authentication, post management, messaging, notifications, and more, providing a robust and scalable foundation for the social media platform.
-
-## Features
-
-- **User Authentication**: Secure authentication using JWT (JSON Web Tokens) with roles and permissions.
-- **User Management**: APIs for user registration, profile management, and account settings.
-- **Post Management**: Create, read, update, and delete (CRUD) operations for posts, including text, images, and hashtags.
-- **Comments and Likes**: Support for commenting on posts and liking/unliking posts.
-- **Follow System**: API for following and unfollowing users, including followers/following lists.
-- **Real-time Messaging**: Private and group chat functionality using Socket.IO.
-- **Notifications**: Real-time notifications for events like new followers, likes, comments, and messages.
-- **Search**: Search functionality for users, posts, and hashtags.
-- **Role-based Access Control**: Different roles for users, admins, and moderators with specific permissions.
-- **RESTful API**: Well-structured and documented RESTful endpoints.
-
-## Technology Stack
-
-- **Framework**: [NestJS](https://nestjs.com/) - A progressive Node.js framework for building efficient, reliable, and scalable server-side applications.
-- **Database**: MongoDB with Mongoose for data modeling.
-- **Authentication**: Passport.js with JWT strategy.
-- **Real-time**: Socket.IO for real-time messaging and notifications.
-- **Caching**: Redis for caching frequently accessed data.
-- **Validation**: Class-validator for input validation.
-- **Documentation**: Swagger for API documentation.
-
-## Installation
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/yourusername/social-media-backend.git
-   cd social-media-backend
-
-2. **Install dependencies:**
-  ```bash
-  npm install
-
-3. **Create .env file and replace the value
-  DATABASE_URI=your_mongo_db_uri
-  JWT_SECRET=your_jwt_secret
-
-4. **Run the application:**
-  ```bash
-  npm run start:dev
-
-
+````
 `````
