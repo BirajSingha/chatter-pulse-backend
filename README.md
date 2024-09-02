@@ -1,4 +1,4 @@
-# Social Media React Native App
+# Chatter Pulse Backend - NestJS
 
 ![Social Media App Banner](https://example.com/banner.png) <!-- Replace with your app's banner image -->
 
